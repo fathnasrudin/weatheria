@@ -8,7 +8,7 @@ const weatherData = {
   },
 
   current: {
-    time: "2026-05-13T02:00",
+    time: "2026-05-13T13:00",
 
     temperature: 24,
     feelsLike: 26,
@@ -23,7 +23,7 @@ const weatherData = {
 
   hourly: [
     {
-      time: "2026-05-13T03:00",
+      time: "2026-05-13T24:00",
 
       temperature: 24,
 
@@ -48,16 +48,24 @@ const weatherData = {
   ],
 };
 
+function formatHour(time: string, timezone: string) {
+  return new Date(time).toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: timezone,
+  });
+}
+
 export default function Home() {
   return (
-    <div className="flex gap-4 p-6">
+    <div className="flex gap-4 p-6 bg-gray-100">
       {/* left part */}
       <div className="flex flex-col gap-4 w-80">
         {/* searchbar */}
-        <div className="bg-red-200 py-1 px-2 rounded-full">searchbar</div>
+        <div className="bg-gray-200 py-1 px-2 rounded-full">searchbar</div>
 
         {/* main part */}
-        <div className="bg-red-200 rounded-2xl p-2">
+        <div className="bg-blue-200 rounded-2xl p-2">
           {/* main section */}
           <div className="text-center py-16">
             <div className="text-6xl">28</div>
@@ -72,9 +80,13 @@ export default function Home() {
           <section className="grid grid-cols-2 gap-2 ">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="border p-2 rounded-xl">
-                <div>FEELS LIKE</div>
-                <div>30</div>
-                <p>lorem ipsum dolor sit</p>
+                <div className="text-xs font-bold text-gray-700">
+                  FEELS LIKE
+                </div>
+                <div className="text-2xl font-bold">30</div>
+                <p className="text-xs mt-4 text-gray-800">
+                  lorem ipsum dolor sit
+                </p>
               </div>
             ))}
           </section>
@@ -84,12 +96,17 @@ export default function Home() {
       {/* right part */}
       <div className="flex-1 overflow-hidden grid grid-cols-2 auto-rows-min gap-4">
         {/* hourly forecast */}
-        <div className="bg-red-200 border col-span-2 rounded-2xl p-2">
+        <div className="bg-blue-200 border col-span-2 rounded-2xl p-2 space-y-4">
           <h3>HOURLY FORECAST</h3>
-          <div className="flex gap-2  overflow-hidden">
+          <div className="flex gap-2  overflow-x-scroll">
             {Array.from({ length: 15 }).map((_, i) => (
               <div key={i} className="border p-1 rounded-xl text-center">
-                <div>Now</div>
+                <div>
+                  {formatHour(
+                    weatherData.hourly[0].time,
+                    weatherData.location.timezone,
+                  )}
+                </div>
                 <div>28</div>
                 <p>icon</p>
               </div>
@@ -98,9 +115,9 @@ export default function Home() {
         </div>
 
         {/* hourly forecast */}
-        <div className="bg-red-200 border  col-span-2  rounded-2xl p-2">
+        <div className="bg-blue-200 border  col-span-2  rounded-2xl p-2">
           <h3>DAILY FORECAST</h3>
-          <div className="flex gap-2 overflow-hidden">
+          <div className="flex gap-2 overflow-x-scroll">
             {Array.from({ length: 15 }).map((_, i) => (
               <div key={i} className="border p-1 rounded-xl text-center">
                 <div>Now</div>
@@ -112,14 +129,14 @@ export default function Home() {
         </div>
 
         {/* other details */}
-        <div className="bg-red-200 border rounded-2xl p-2">
+        <div className="bg-blue-200 border rounded-2xl p-2">
           <h3>uv index</h3>
           <div>3</div>
           <p>moderate</p>
           <p>lorem ipsum dolor sit amet</p>
         </div>
 
-        <div className="bg-red-200 border rounded-2xl p-2">
+        <div className="bg-blue-200 border rounded-2xl p-2">
           <h3>wind</h3>
           <div>3</div>
           <p>moderate</p>
