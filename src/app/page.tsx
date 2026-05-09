@@ -73,9 +73,9 @@ function formatDateToWeekday(date: string, timezone: string) {
 
 export default function Home() {
   return (
-    <div className="flex gap-4 p-6 bg-gray-100">
+    <div className="flex flex-col sm:flex-row gap-4 p-6 bg-gray-100">
       {/* left part */}
-      <div className="flex flex-col gap-4 w-80">
+      <div className="w-full sm:w-80 flex flex-col gap-4 ">
         {/* searchbar */}
         <div className="bg-gray-200 py-1 px-2 rounded-full">searchbar</div>
 
