@@ -71,6 +71,45 @@ function formatDateToWeekday(date: string, timezone: string) {
   });
 }
 
+function HourlyForecastCard({
+  hForecast,
+}: {
+  hForecast: {
+    time: string;
+    temperature: number;
+  };
+}) {
+  return (
+    <div key={hForecast.time} className="border p-1 rounded-xl text-center">
+      <div>{formatHour(hForecast.time, weatherData.location.timezone)}</div>
+      <div>{hForecast.temperature}</div>
+      <p>icon</p>
+    </div>
+  );
+}
+
+function DailyForecastCard({
+  dForecast,
+}: {
+  dForecast: {
+    date: string;
+    temperature: number;
+  };
+}) {
+  return (
+    <div key={dForecast.date} className="border p-1 rounded-xl text-center">
+      <div>
+        {formatDateToWeekday(dForecast.date, weatherData.location.timezone)}
+      </div>
+      <div>
+        {formatDateToNumber(dForecast.date, weatherData.location.timezone)}
+      </div>
+      <div>{dForecast.temperature}</div>
+      <p>icon</p>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <div className="flex flex-col sm:flex-row gap-4 p-6 bg-gray-100">
@@ -97,6 +136,7 @@ export default function Home() {
           <section className="grid grid-cols-2 gap-2 ">
             {currentWeatherDetails.map((item) => (
               <div key={item.title} className="border p-2 rounded-xl">
+                {/* generic title */}
                 <div className="text-xs font-bold text-gray-700">
                   {item.title}
                 </div>
@@ -115,16 +155,7 @@ export default function Home() {
           <h3>HOURLY FORECAST</h3>
           <div className="flex gap-2  overflow-auto">
             {weatherData.hourly.map((forecast) => (
-              <div
-                key={forecast.time}
-                className="border p-1 rounded-xl text-center"
-              >
-                <div>
-                  {formatHour(forecast.time, weatherData.location.timezone)}
-                </div>
-                <div>{forecast.temperature}</div>
-                <p>icon</p>
-              </div>
+              <HourlyForecastCard key={forecast.time} hForecast={forecast} />
             ))}
           </div>
         </div>
@@ -134,25 +165,7 @@ export default function Home() {
           <h3>DAILY FORECAST</h3>
           <div className="flex gap-2   overflow-auto">
             {weatherData.daily.map((dforecast) => (
-              <div
-                key={dforecast.date}
-                className="border p-1 rounded-xl text-center"
-              >
-                <div>
-                  {formatDateToWeekday(
-                    dforecast.date,
-                    weatherData.location.timezone,
-                  )}
-                </div>
-                <div>
-                  {formatDateToNumber(
-                    dforecast.date,
-                    weatherData.location.timezone,
-                  )}
-                </div>
-                <div>{dforecast.temperature}</div>
-                <p>icon</p>
-              </div>
+              <DailyForecastCard key={dforecast.date} dForecast={dforecast} />
             ))}
           </div>
         </div>
