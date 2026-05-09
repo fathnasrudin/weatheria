@@ -1,4 +1,7 @@
-const weatherData = {
+"use client";
+import { useEffect, useState } from "react";
+
+const weatherData: IWeatherData = {
   location: {
     name: "Garut",
     country: "Indonesia",
@@ -110,7 +113,140 @@ function DailyForecastCard({
   );
 }
 
+interface IOpenMeteoForecast {
+  latitude: number;
+  longitude: number;
+  generationtime_ms: number;
+  utc_offset_seconds: number;
+  timezone: string;
+  timezone_abbreviation: string;
+  elevation: number;
+  current_units: {
+    time: string;
+    interval: string;
+    temperature_2m: string;
+  };
+  current: {
+    time: string;
+    interval: number;
+    temperature_2m: number;
+  };
+}
+
+interface IWeatherData {
+  location: {
+    name: string;
+    country: string;
+    latitude: number;
+    longitude: number;
+    timezone: string;
+  };
+
+  current: {
+    time: string;
+    temperature: number;
+    feelsLike: number;
+    humidity: number;
+    windSpeed: number;
+    weatherCode: number;
+    isDay: boolean;
+  };
+
+  hourly: {
+    time: string;
+    temperature: number;
+  }[];
+
+  daily: {
+    date: string;
+    temperature: number;
+  }[];
+}
+
+function normalizeOpenMeteo(rawForecast: IOpenMeteoForecast) {
+  return {
+    location: {
+      name: "unknown",
+      country: "unknown",
+      latitude: rawForecast.latitude,
+      longitude: rawForecast.longitude,
+      timezone: rawForecast.timezone,
+    },
+
+    current: {
+      time: rawForecast.current.time,
+
+      temperature: rawForecast.current.temperature_2m,
+      feelsLike: 0,
+
+      humidity: 0,
+      windSpeed: 0,
+
+      weatherCode: 0,
+
+      details: {},
+      isDay: true,
+    },
+
+    hourly: [
+      {
+        time: "2026-05-13T02:00",
+        temperature: 0,
+      },
+      {
+        time: "2026-05-13T03:00",
+        temperature: 0,
+      },
+    ],
+
+    daily: [
+      {
+        date: "2026-05-13",
+        temperature: 0,
+      },
+    ],
+  };
+}
+
 export default function Home() {
+  const [weatherData, setWeatherData] = useState<IWeatherData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    async function fetchWeatherData() {
+      const lat = -6.4214;
+      const long = 106.7331;
+      try {
+        setLoading(true);
+        setErrorMessage("");
+        const response = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m`,
+        );
+
+        if (!response.ok) {
+          throw new Error("Response Not Ok");
+        }
+
+        const result = await response.json();
+        console.log({ result });
+        console.log(normalizeOpenMeteo(result));
+        setWeatherData(normalizeOpenMeteo(result));
+      } catch (error) {
+        console.log(error);
+        setErrorMessage("Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchWeatherData();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (errorMessage) return <p>{errorMessage}</p>;
+  if (!weatherData) return <p>Data not found</p>;
+
   return (
     <div className="flex flex-col sm:flex-row gap-4 p-6 bg-gray-100">
       {/* left part */}
