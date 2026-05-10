@@ -1,4 +1,9 @@
 "use client";
+import {
+  formatDateToNumber,
+  formatDateToWeekday,
+  formatHour,
+} from "@/features/weather/weather.utils";
 import React, { SetStateAction, useEffect, useState } from "react";
 
 const weatherData: IWeatherData = {
@@ -48,30 +53,6 @@ const currentWeatherDetails = [
   { title: "Humidity", value: weatherData.current.humidity },
   { title: "Wind Speed", value: weatherData.current.windSpeed },
 ];
-
-function formatHour(time: string, timezone: string) {
-  return new Date(time).toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hourCycle: "h24",
-    timeZone: timezone,
-  });
-}
-
-function formatDateToNumber(date: string, timezone: string) {
-  return new Date(date).toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "2-digit",
-    timeZone: timezone,
-  });
-}
-
-function formatDateToWeekday(date: string, timezone: string) {
-  return new Date(date).toLocaleDateString("en-US", {
-    weekday: "short",
-    timeZone: timezone,
-  });
-}
 
 function HourlyForecastCard({
   hForecast,
