@@ -7,92 +7,11 @@ import {
 import { useState } from "react";
 import { Searchbar } from "./search-location";
 
-const weatherData: IWeatherData = {
-  location: {
-    name: "Garut",
-    country: "Indonesia",
-    latitude: -6.91,
-    longitude: 107.61,
-    timezone: "Asia/Jakarta",
-  },
-
-  current: {
-    time: "2026-05-13T13:00",
-
-    temperature: 24,
-    feelsLike: 26,
-
-    humidity: 80,
-    windSpeed: 5,
-
-    weatherCode: 3,
-
-    isDay: true,
-  },
-
-  hourly: [
-    {
-      time: "2026-05-13T02:00",
-      temperature: 24,
-    },
-    {
-      time: "2026-05-13T03:00",
-      temperature: 24,
-    },
-  ],
-
-  daily: [
-    {
-      date: "2026-05-13",
-      temperature: 27,
-    },
-  ],
-};
-
 const currentWeatherDetails = [
-  { title: "Feels Like", value: weatherData.current.feelsLike },
-  { title: "Humidity", value: weatherData.current.humidity },
-  { title: "Wind Speed", value: weatherData.current.windSpeed },
+  { title: "Feels Like", value: 0 },
+  { title: "Humidity", value: 0 },
+  { title: "Wind Speed", value: 0 },
 ];
-
-function HourlyForecastCard({
-  hForecast,
-}: {
-  hForecast: {
-    time: string;
-    temperature: number;
-  };
-}) {
-  return (
-    <div key={hForecast.time} className="border p-1 rounded-xl text-center">
-      <div>{formatHour(hForecast.time, weatherData.location.timezone)}</div>
-      <div>{hForecast.temperature}</div>
-      <p>icon</p>
-    </div>
-  );
-}
-
-function DailyForecastCard({
-  dForecast,
-}: {
-  dForecast: {
-    date: string;
-    temperature: number;
-  };
-}) {
-  return (
-    <div key={dForecast.date} className="border p-1 rounded-xl text-center">
-      <div>
-        {formatDateToWeekday(dForecast.date, weatherData.location.timezone)}
-      </div>
-      <div>
-        {formatDateToNumber(dForecast.date, weatherData.location.timezone)}
-      </div>
-      <div>{dForecast.temperature}</div>
-      <p>icon</p>
-    </div>
-  );
-}
 
 export function WeatherPage() {
   const [weatherData, setWeatherData] = useState<IWeatherData | null>(null);
@@ -144,7 +63,16 @@ export function WeatherPage() {
             <h3>HOURLY FORECAST</h3>
             <div className="flex gap-2  overflow-auto">
               {weatherData.hourly.map((forecast) => (
-                <HourlyForecastCard key={forecast.time} hForecast={forecast} />
+                <div
+                  key={forecast.time}
+                  className="border p-1 rounded-xl text-center"
+                >
+                  <div>
+                    {formatHour(forecast.time, weatherData.location.timezone)}
+                  </div>
+                  <div>{forecast.temperature}</div>
+                  <p>icon</p>
+                </div>
               ))}
             </div>
           </div>
@@ -154,7 +82,25 @@ export function WeatherPage() {
             <h3>DAILY FORECAST</h3>
             <div className="flex gap-2   overflow-auto">
               {weatherData.daily.map((dforecast) => (
-                <DailyForecastCard key={dforecast.date} dForecast={dforecast} />
+                <div
+                  key={dforecast.date}
+                  className="border p-1 rounded-xl text-center"
+                >
+                  <div>
+                    {formatDateToWeekday(
+                      dforecast.date,
+                      weatherData.location.timezone,
+                    )}
+                  </div>
+                  <div>
+                    {formatDateToNumber(
+                      dforecast.date,
+                      weatherData.location.timezone,
+                    )}
+                  </div>
+                  <div>{dforecast.temperature}</div>
+                  <p>icon</p>
+                </div>
               ))}
             </div>
           </div>
