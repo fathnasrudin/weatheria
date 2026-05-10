@@ -5,6 +5,7 @@ import {
   formatHour,
 } from "@/features/weather/weather.utils";
 import React, { SetStateAction, useEffect, useState } from "react";
+import { getWeather } from "../weather.service";
 
 const weatherData: IWeatherData = {
   location: {
@@ -163,24 +164,6 @@ const fetchGeocoding = async (searchLocation: string) => {
   }
 };
 
-async function fetchWeather({ lat, long }: { lat: number; long: number }) {
-  try {
-    const response = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m`,
-    );
-
-    if (!response.ok) {
-      throw new Error("Response Not Ok");
-    }
-
-    const result: IOpenMeteoForecast = await response.json();
-    return { data: result, error: null };
-  } catch (error) {
-    console.error(error);
-    return { data: null, error };
-  }
-}
-
 function Searchbar({
   setWeatherData,
 }: {
@@ -212,7 +195,7 @@ function Searchbar({
           }
 
           const { data: rawForecast, error: fetchWeatherError } =
-            await fetchWeather({
+            await getWeather({
               lat: location?.latitude,
               long: location?.longitude,
             });
