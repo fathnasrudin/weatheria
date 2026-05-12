@@ -1,11 +1,10 @@
 "use client";
-import { SetStateAction, useState } from "react";
-import { getWeatherByLocation } from "../weather.service";
+import { useState } from "react";
 
 export function Searchbar({
-  setWeatherData,
+  onSearch,
 }: {
-  setWeatherData: React.Dispatch<SetStateAction<IWeatherData | null>>;
+  onSearch: (locationName: string) => void;
 }) {
   const [searchLocation, setSearchLocation] = useState("");
 
@@ -21,10 +20,9 @@ export function Searchbar({
         }}
       />
       <button
-        onClick={async (e) => {
+        onClick={(e) => {
           e.preventDefault();
-          const data = await getWeatherByLocation(searchLocation);
-          setWeatherData(data);
+          onSearch(searchLocation);
         }}
         className="cursor-pointer"
       >

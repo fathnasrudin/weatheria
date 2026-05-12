@@ -6,6 +6,7 @@ import {
 } from "@/features/weather/weather.utils";
 import { useState } from "react";
 import { Searchbar } from "./search-location";
+import { getWeatherByLocation } from "../weather.service";
 
 const currentWeatherDetails = [
   { title: "Feels Like", value: 0 },
@@ -13,15 +14,57 @@ const currentWeatherDetails = [
   { title: "Wind Speed", value: 0 },
 ];
 
+function useGetWeatherByLocation() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [weather, setWeather] = useState<IWeatherData>();
+
+  async function searchWeather(locationName: string) {
+    try {
+      setIsLoading(true);
+      setErrorMessage("");
+      const res = await getWeatherByLocation(locationName);
+      setWeather(res);
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("Failed to fetch weather data");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return {
+    isLoading,
+    errorMessage,
+    weather,
+    searchWeather,
+  };
+}
+
 export function WeatherPage() {
-  const [weatherData, setWeatherData] = useState<IWeatherData | null>(null);
+  const {
+    errorMessage,
+    isLoading,
+    weather: weatherData,
+    searchWeather,
+  } = useGetWeatherByLocation();
+
+  async function handleSearch(locationName: string) {
+    searchWeather(locationName);
+  }
+
+  if (isLoading) return <p>Loading...</p>;
+  if (errorMessage) return <p>{errorMessage}</p>;
 
   return (
     <div className="flex flex-col sm:flex-row gap-4 p-6 bg-gray-100">
       {/* left part */}
       <div className="w-full sm:w-80 flex flex-col gap-4 ">
         {/* searchbar */}
-        <Searchbar setWeatherData={setWeatherData} />
+        <Searchbar onSearch={handleSearch} />
 
         {weatherData && (
           <div className="bg-blue-200 rounded-2xl p-4 space-y-16">
