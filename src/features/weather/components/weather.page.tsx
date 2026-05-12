@@ -7,12 +7,7 @@ import {
 import { useState } from "react";
 import { Searchbar } from "./search-location";
 import { getWeatherByLocation } from "../weather.service";
-
-const currentWeatherDetails = [
-  { title: "Feels Like", value: 0 },
-  { title: "Humidity", value: 0 },
-  { title: "Wind Speed", value: 0 },
-];
+import { IWeatherData } from "../types/weather";
 
 function useGetWeatherByLocation() {
   const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +64,7 @@ export function WeatherPage() {
         {weatherData && (
           <div className="bg-blue-200 rounded-2xl p-4 space-y-16">
             {/* main part */}
-            <div className="text-center text-xl">
+            <div className="text-center text-sm font-bold">
               {weatherData.location.name}, {weatherData.location.country}
             </div>
 
@@ -83,13 +78,16 @@ export function WeatherPage() {
 
             {/* detail grid */}
             <section className="grid grid-cols-2 gap-2 ">
-              {currentWeatherDetails.map((item) => (
+              {/* current detail card */}
+              {weatherData.current.details.map((item) => (
                 <div key={item.title} className="border p-2 rounded-xl">
-                  {/* generic title */}
                   <div className="text-xs font-bold text-gray-700">
                     {item.title}
                   </div>
-                  <div className="text-2xl font-bold">{item.value}</div>
+                  <div className="text-2xl font-bold">
+                    {item.value}
+                    <span className="text-xs">{item.unit}</span>
+                  </div>
                   <p className="text-xs mt-4 text-gray-800">No description</p>
                 </div>
               ))}
@@ -120,7 +118,7 @@ export function WeatherPage() {
             </div>
           </div>
 
-          {/* hourly forecast */}
+          {/* daily forecast */}
           <div className="bg-blue-200 border  col-span-2  rounded-2xl p-2">
             <h3>DAILY FORECAST</h3>
             <div className="flex gap-2   overflow-auto">

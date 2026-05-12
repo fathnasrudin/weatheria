@@ -1,4 +1,6 @@
-function normalizeOpenMeteo(
+import { IGeocodingItem, IOpenMeteoForecast } from "./types/weather";
+
+export function normalizeOpenMeteo(
   rawForecast: IOpenMeteoForecast,
   geolocation: IGeocodingItem,
 ) {
@@ -16,13 +18,29 @@ function normalizeOpenMeteo(
 
       temperature: rawForecast.current.temperature_2m,
       feelsLike: 0,
+      details: [
+        {
+          title: "Feels Like",
+          value: rawForecast.current.apparent_temperature,
+          unit: rawForecast.current_units.apparent_temperature,
+        },
+
+        {
+          title: "Humidity",
+          value: rawForecast.current.relative_humidity_2m,
+          unit: rawForecast.current_units.relative_humidity_2m,
+        },
+
+        {
+          title: "Wind Speed",
+          value: rawForecast.current.wind_speed_10m,
+          unit: rawForecast.current_units.wind_speed_10m,
+        },
+      ],
 
       humidity: 0,
       windSpeed: 0,
-
       weatherCode: 0,
-
-      details: {},
       isDay: true,
     },
 
@@ -47,9 +65,10 @@ function normalizeOpenMeteo(
 }
 
 export async function getWeather({ lat, long }: { lat: number; long: number }) {
+  const currentProps = ["temperature_2m", "apparent_temperature"];
   try {
     const response = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m`,
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=${currentProps.join(",")}`,
     );
 
     if (!response.ok) {
@@ -71,8 +90,14 @@ export async function getWeatherByCoordinate({
   lat: number;
   long: number;
 }) {
+  const currentProps = [
+    "temperature_2m",
+    "apparent_temperature",
+    "relative_humidity_2m",
+    "wind_speed_10m",
+  ];
   const response = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m`,
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=${currentProps.join(",")}`,
   );
 
   if (!response.ok) {
