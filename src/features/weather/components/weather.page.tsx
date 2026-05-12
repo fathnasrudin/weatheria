@@ -8,6 +8,8 @@ import { useState } from "react";
 import { Searchbar } from "./search-location";
 import { getWeatherByLocation } from "../weather.service";
 import { IWeatherData } from "../types/weather";
+import { weatherCodeMap } from "../weather-code-map";
+import Image from "next/image";
 
 function useGetWeatherByLocation() {
   const [isLoading, setIsLoading] = useState(false);
@@ -70,9 +72,35 @@ export function WeatherPage() {
 
             {/* main section */}
             <div className="text-center">
-              <div className="text-6xl">{weatherData.current.temperature}</div>
-              <div className="text-2xl">
-                weather code {weatherData.current.weatherCode}
+              <div className="text-4xl font-bold flex justify-center">
+                <span>{weatherData.current.temperature.value}</span>
+                <span className="text-base font-extrabold">
+                  {weatherData.current.temperature.unit}
+                </span>
+              </div>
+              <div className="mx-auto flex items-center justify-center h-16 w-16 relative">
+                <Image
+                  className=" h-full object-cover"
+                  src={
+                    weatherCodeMap[weatherData.current.weatherCode][
+                      weatherData.current.isDay ? "day" : "night"
+                    ].image
+                  }
+                  alt={
+                    weatherCodeMap[weatherData.current.weatherCode][
+                      weatherData.current.isDay ? "day" : "night"
+                    ].description
+                  }
+                  width={100}
+                  height={100}
+                />
+              </div>
+              <div className="text-xl text-gray-700">
+                {
+                  weatherCodeMap[weatherData.current.weatherCode][
+                    weatherData.current.isDay ? "day" : "night"
+                  ].description
+                }
               </div>
             </div>
 

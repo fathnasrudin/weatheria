@@ -16,8 +16,12 @@ export function normalizeOpenMeteo(
     current: {
       time: rawForecast.current.time,
 
-      temperature: rawForecast.current.temperature_2m,
-      feelsLike: 0,
+      temperature: {
+        value: rawForecast.current.temperature_2m,
+        unit: rawForecast.current_units.temperature_2m,
+      },
+      weatherCode: rawForecast.current.weather_code,
+      isDay: rawForecast.current.is_day,
       details: [
         {
           title: "Feels Like",
@@ -37,11 +41,6 @@ export function normalizeOpenMeteo(
           unit: rawForecast.current_units.wind_speed_10m,
         },
       ],
-
-      humidity: 0,
-      windSpeed: 0,
-      weatherCode: 0,
-      isDay: true,
     },
 
     hourly: [
@@ -95,6 +94,8 @@ export async function getWeatherByCoordinate({
     "apparent_temperature",
     "relative_humidity_2m",
     "wind_speed_10m",
+    "weather_code",
+    "is_day",
   ];
   const response = await fetch(
     `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=${currentProps.join(",")}`,
@@ -132,5 +133,6 @@ export async function getWeatherByLocation(locationName: string) {
   });
 
   const normalizedWeather = normalizeOpenMeteo(weather, location);
+  console.log({ normalizedWeather });
   return normalizedWeather;
 }
