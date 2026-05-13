@@ -1,12 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Weatheria
 
-## Getting Started
+Weatheria is a web-based weather application for checking current weather conditions and weather forecasts based on searched locations.
 
-First, run the development server:
+## Preview
 
-```bash
+Open the application in your browser after starting the development server:
+
+```txt id="x1"
+http://localhost:3000
+```
+
+# Features
+
+- Search weather by location name
+- Display current weather conditions
+- Display weather forecasts
+- Real-time weather data powered by Open-Meteo
+
+# Tech Stack
+
+- Next.js
+- React
+
+# Installation
+
+Clone the repository:
+
+```bash id="x2"
+git clone <repository-url>
+```
+
+Navigate to the project directory:
+
+```bash id="x3"
+cd weatheria
+```
+
+Install dependencies:
+
+```bash id="x4"
+npm install
+```
+
+Start the development server:
+
+```bash id="x5"
 npm run dev
-# or
+```
+
+Alternative package managers:
+
+```bash id="x6"
 yarn dev
 # or
 pnpm dev
@@ -14,23 +58,28 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Once the server is running, open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```txt id="x7"
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Data Sources
 
-## Learn More
+- [Open-Meteo API](https://open-meteo.com) — Weather and forecast data provider
+- [Stellasphere WMO Weather Codes](https://gist.github.com/stellasphere/9490c195ed2b53c707087c8c2db4ec0c) — WMO weather code interpretation reference
 
-To learn more about Next.js, take a look at the following resources:
+# Roadmap
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Add Fahrenheit temperature option
+- Add today's weather highlights:
+  - UV Index
+  - Sunrise & Sunset
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Add automatic geolocation support
+- Add dark mode
+- Add hourly forecast
 
-## Deploy on Vercel
+# License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT License
