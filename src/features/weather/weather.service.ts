@@ -11,6 +11,12 @@ export function normalizeOpenMeteo(
     isDay: rawForecast.hourly.is_day[i],
   }));
 
+  const daily = rawForecast.daily.time.map((t, i) => ({
+    time: t,
+    temperature: `${rawForecast.daily.temperature_2m_min[i]}-${rawForecast.daily.temperature_2m_max[i]}`,
+    weatherCode: rawForecast.daily.weather_code[i],
+  }));
+
   return {
     location: {
       name: `${geolocation.name}, ${geolocation.admin2}, ${geolocation.admin1}`,
@@ -52,12 +58,7 @@ export function normalizeOpenMeteo(
 
     hourly: hourly,
 
-    daily: [
-      {
-        date: "2026-05-13",
-        temperature: 0,
-      },
-    ],
+    daily: daily,
   };
 }
 
@@ -96,12 +97,18 @@ export async function getWeatherByCoordinate({
     "is_day",
   ];
   const hourlyProps = ["temperature_2m", "weather_code", "rain", "is_day"];
+  const dailyProps = [
+    "temperature_2m_min",
+    "temperature_2m_max",
+    "weather_code",
+  ];
   const forecastProps = [
     ["latitude", lat],
     ["longitude", long],
-    ["forecast_days", 1],
+    ["forecast_days", 7],
     ["current", currentProps.join(",")],
     ["hourly", hourlyProps.join(",")],
+    ["daily", dailyProps.join(",")],
   ];
 
   const forecastString = forecastProps.map((i) => i.join("=")).join("&");

@@ -118,6 +118,12 @@ const openMeteoResponse = {
       0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ],
   },
+  daily: {
+    time: ["2026-05-13"],
+    weather_code: [95],
+    temperature_2m_max: [13.3],
+    temperature_2m_min: [6.2],
+  },
 };
 
 export type IOpenMeteoForecast = typeof openMeteoResponse;

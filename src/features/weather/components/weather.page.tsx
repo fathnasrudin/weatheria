@@ -139,7 +139,12 @@ export function WeatherPage() {
                   <div>
                     {formatHour(forecast.time, weatherData.location.timezone)}
                   </div>
-                  <div>{forecast.temperature}</div>
+                  <div>
+                    {forecast.temperature}{" "}
+                    <span className="text-xs">
+                      {weatherData.current.temperature.unit}
+                    </span>
+                  </div>
                   <div className="mx-auto flex items-center justify-center h-16 w-16 relative">
                     <Image
                       className=" h-full object-cover"
@@ -168,23 +173,38 @@ export function WeatherPage() {
             <div className="flex gap-2   overflow-auto">
               {weatherData.daily.map((dforecast) => (
                 <div
-                  key={dforecast.date}
+                  key={dforecast.time}
                   className="border p-1 rounded-xl text-center"
                 >
                   <div>
                     {formatDateToWeekday(
-                      dforecast.date,
+                      dforecast.time,
                       weatherData.location.timezone,
                     )}
                   </div>
                   <div>
                     {formatDateToNumber(
-                      dforecast.date,
+                      dforecast.time,
                       weatherData.location.timezone,
                     )}
                   </div>
-                  <div>{dforecast.temperature}</div>
-                  <p>icon</p>
+                  <div>
+                    {dforecast.temperature}
+                    <span className="text-xs">
+                      {weatherData.current.temperature.unit}
+                    </span>
+                  </div>
+                  <div className="mx-auto flex items-center justify-center h-16 w-16 relative">
+                    <Image
+                      className=" h-full object-cover"
+                      src={weatherCodeMap[dforecast.weatherCode]["day"].image}
+                      alt={
+                        weatherCodeMap[dforecast.weatherCode]["day"].description
+                      }
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                 </div>
               ))}
             </div>
