@@ -6,14 +6,14 @@ export function normalizeOpenMeteo(
 ) {
   const hourly = rawForecast.hourly.time.map((t, i) => ({
     time: t,
-    temperature: rawForecast.hourly.temperature_2m[i],
+    temperature: Math.round(rawForecast.hourly.temperature_2m[i]),
     weatherCode: rawForecast.hourly.weather_code[i],
     isDay: rawForecast.hourly.is_day[i],
   }));
 
   const daily = rawForecast.daily.time.map((t, i) => ({
     time: t,
-    temperature: `${rawForecast.daily.temperature_2m_min[i]}-${rawForecast.daily.temperature_2m_max[i]}`,
+    temperature: `${Math.round(rawForecast.daily.temperature_2m_min[i])}-${Math.round(rawForecast.daily.temperature_2m_max[i])}`,
     weatherCode: rawForecast.daily.weather_code[i],
   }));
 
@@ -30,7 +30,7 @@ export function normalizeOpenMeteo(
       time: rawForecast.current.time,
 
       temperature: {
-        value: rawForecast.current.temperature_2m,
+        value: Math.round(rawForecast.current.temperature_2m),
         unit: rawForecast.current_units.temperature_2m,
       },
       weatherCode: rawForecast.current.weather_code,
