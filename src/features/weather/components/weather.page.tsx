@@ -57,14 +57,14 @@ export function WeatherPage() {
   if (errorMessage) return <p>{errorMessage}</p>;
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 p-6 bg-gray-100">
+    <div className="flex flex-col sm:flex-row gap-4 p-6 bg-gray-100 min-h-screen">
       {/* left part */}
       <div className="w-full sm:w-80 flex flex-col gap-4 ">
         {/* searchbar */}
         <Searchbar onSearch={handleSearch} />
 
         {weatherData && (
-          <div className="bg-blue-200 rounded-2xl p-4 space-y-16">
+          <div className="bg-white shadow rounded-2xl p-4 space-y-16">
             {/* main part */}
             <div className="text-center text-sm font-bold">
               {weatherData.location.name}, {weatherData.location.country}
@@ -108,7 +108,7 @@ export function WeatherPage() {
             <section className="grid grid-cols-2 gap-2 ">
               {/* current detail card */}
               {weatherData.current.details.map((item) => (
-                <div key={item.title} className="border p-2 rounded-xl">
+                <div key={item.title} className="shadow p-2 rounded-xl">
                   <div className="text-xs font-bold text-gray-700">
                     {item.title}
                   </div>
@@ -116,7 +116,7 @@ export function WeatherPage() {
                     {item.value}
                     <span className="text-xs">{item.unit}</span>
                   </div>
-                  <p className="text-xs mt-4 text-gray-800">No description</p>
+                  <p className="text-xs mt-4 text-gray-700">No description</p>
                 </div>
               ))}
             </section>
@@ -128,19 +128,21 @@ export function WeatherPage() {
       {weatherData && (
         <div className="flex-1 overflow-hidden grid grid-cols-2 auto-rows-min gap-4">
           {/* hourly forecast */}
-          <div className="bg-blue-200 border col-span-2 rounded-2xl p-2 space-y-4">
-            <h3>HOURLY FORECAST</h3>
+          <div className=" col-span-2 rounded-2xl p-2 space-y-2">
+            <h3 className="font-bold text-gray-700 text-sm uppercase">
+              HOURLY FORECAST
+            </h3>
             <div className="flex gap-2  overflow-auto">
               {weatherData.hourly.map((forecast) => (
                 <div
                   key={forecast.time}
-                  className="border p-1 rounded-xl text-center"
+                  className="bg-white shadow  p-1 rounded-xl text-center"
                 >
-                  <div>
+                  <div className="text-sm text-gray-600">
                     {formatHour(forecast.time, weatherData.location.timezone)}
                   </div>
-                  <div>
-                    {forecast.temperature}{" "}
+                  <div className="text-sm text-gray-600">
+                    {forecast.temperature}
                     <span className="text-xs">
                       {weatherData.current.temperature.unit}
                     </span>
@@ -168,27 +170,29 @@ export function WeatherPage() {
           </div>
 
           {/* daily forecast */}
-          <div className="bg-blue-200 border  col-span-2  rounded-2xl p-2">
-            <h3>DAILY FORECAST</h3>
+          <div className=" col-span-2  rounded-2xl p-2 space-y-2">
+            <h3 className="font-bold text-gray-700 text-sm uppercase">
+              DAILY FORECAST
+            </h3>
             <div className="flex gap-2   overflow-auto">
               {weatherData.daily.map((dforecast) => (
                 <div
                   key={dforecast.time}
-                  className="border p-1 rounded-xl text-center"
+                  className="bg-white shadow p-1 rounded-xl text-center"
                 >
-                  <div>
+                  <div className="text-xs">
                     {formatDateToWeekday(
                       dforecast.time,
                       weatherData.location.timezone,
                     )}
                   </div>
-                  <div>
+                  <div className="text-xs">
                     {formatDateToNumber(
                       dforecast.time,
                       weatherData.location.timezone,
                     )}
                   </div>
-                  <div>
+                  <div className="text-gray-600 text-xs">
                     {dforecast.temperature}
                     <span className="text-xs">
                       {weatherData.current.temperature.unit}
@@ -211,15 +215,15 @@ export function WeatherPage() {
           </div>
 
           {/* other details */}
-          <div className="bg-blue-200 border rounded-2xl p-2">
-            <h3>uv index</h3>
+          <div className="bg-white shadow rounded-2xl p-2">
+            <h3>uv index (dummy)</h3>
             <div>3</div>
             <p>moderate</p>
             <p>lorem ipsum dolor sit amet</p>
           </div>
 
-          <div className="bg-blue-200 border rounded-2xl p-2">
-            <h3>wind</h3>
+          <div className="bg-white shadow rounded-2xl p-2">
+            <h3>wind (dummy)</h3>
             <div>3</div>
             <p>moderate</p>
             <p>lorem ipsum dolor sit amet</p>
