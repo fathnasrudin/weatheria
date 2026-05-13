@@ -146,7 +146,7 @@ export function WeatherPage() {
             <h3 className="font-bold text-gray-700 text-sm uppercase">
               HOURLY FORECAST
             </h3>
-            <div className="flex gap-2  overflow-auto">
+            <div className="pb-2  flex gap-2  overflow-auto">
               {weatherData.hourly.map((forecast) => (
                 <div
                   key={forecast.time}
@@ -188,7 +188,7 @@ export function WeatherPage() {
             <h3 className="font-bold text-gray-700 text-sm uppercase">
               DAILY FORECAST
             </h3>
-            <div className="flex gap-2   overflow-auto">
+            <div className="flex gap-2 pb-2 overflow-auto">
               {weatherData.daily.map((dforecast) => (
                 <div
                   key={dforecast.time}
