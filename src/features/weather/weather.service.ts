@@ -4,6 +4,13 @@ export function normalizeOpenMeteo(
   rawForecast: IOpenMeteoForecast,
   geolocation: IGeocodingItem,
 ) {
+  const hourly = rawForecast.hourly.time.map((t, i) => ({
+    time: t,
+    temperature: rawForecast.hourly.temperature_2m[i],
+    weatherCode: rawForecast.hourly.weather_code[i],
+    isDay: rawForecast.hourly.is_day[i],
+  }));
+
   return {
     location: {
       name: `${geolocation.name}, ${geolocation.admin2}, ${geolocation.admin1}`,
@@ -43,16 +50,7 @@ export function normalizeOpenMeteo(
       ],
     },
 
-    hourly: [
-      {
-        time: "2026-05-13T02:00",
-        temperature: 0,
-      },
-      {
-        time: "2026-05-13T03:00",
-        temperature: 0,
-      },
-    ],
+    hourly: hourly,
 
     daily: [
       {
@@ -97,15 +95,28 @@ export async function getWeatherByCoordinate({
     "weather_code",
     "is_day",
   ];
+  const hourlyProps = ["temperature_2m", "weather_code", "rain", "is_day"];
+  const forecastProps = [
+    ["latitude", lat],
+    ["longitude", long],
+    ["forecast_days", 1],
+    ["current", currentProps.join(",")],
+    ["hourly", hourlyProps.join(",")],
+  ];
+
+  const forecastString = forecastProps.map((i) => i.join("=")).join("&");
+
   const response = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=${currentProps.join(",")}`,
+    `https://api.open-meteo.com/v1/forecast?${forecastString}`,
   );
 
   if (!response.ok) {
+    console.log(await response.json());
     throw new Error("Response Not Ok");
   }
 
   const result: IOpenMeteoForecast = await response.json();
+  console.log({ result });
   return result;
 }
 

@@ -140,7 +140,23 @@ export function WeatherPage() {
                     {formatHour(forecast.time, weatherData.location.timezone)}
                   </div>
                   <div>{forecast.temperature}</div>
-                  <p>icon</p>
+                  <div className="mx-auto flex items-center justify-center h-16 w-16 relative">
+                    <Image
+                      className=" h-full object-cover"
+                      src={
+                        weatherCodeMap[forecast.weatherCode][
+                          forecast.isDay ? "day" : "night"
+                        ].image
+                      }
+                      alt={
+                        weatherCodeMap[forecast.weatherCode][
+                          forecast.isDay ? "day" : "night"
+                        ].description
+                      }
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                 </div>
               ))}
             </div>
