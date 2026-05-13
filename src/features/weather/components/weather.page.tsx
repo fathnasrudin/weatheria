@@ -4,7 +4,7 @@ import {
   formatDateToWeekday,
   formatHour,
 } from "@/features/weather/weather.utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Searchbar } from "./search-location";
 import { getWeatherByLocation } from "../weather.service";
 import { IWeatherData } from "../types/weather";
@@ -52,6 +52,14 @@ export function WeatherPage() {
   async function handleSearch(locationName: string) {
     searchWeather(locationName);
   }
+
+  // initial render
+  useEffect(() => {
+    async function fetchData() {
+      await searchWeather("Bandung");
+    }
+    fetchData();
+  }, []);
 
   if (isLoading) return <p>Loading...</p>;
   if (errorMessage) return <p>{errorMessage}</p>;
