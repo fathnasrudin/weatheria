@@ -9,11 +9,11 @@ export function Searchbar({
   const [searchLocation, setSearchLocation] = useState("");
 
   return (
-    <form className="flex gap-4">
+    <form className="bg-gray-200 overflow-hidden rounded-full flex">
       <input
         type="text"
         placeholder="searchbar"
-        className="flex-1 bg-gray-200 py-1 px-2 rounded-full"
+        className="flex-1 px-4 py-1 outline-0"
         value={searchLocation}
         onChange={(e) => {
           setSearchLocation(e.target.value);
@@ -24,7 +24,7 @@ export function Searchbar({
           e.preventDefault();
           onSearch(searchLocation);
         }}
-        className="cursor-pointer"
+        className="bg-blue-300 cursor-pointer px-4 py-1 text-sm"
       >
         Search
       </button>
