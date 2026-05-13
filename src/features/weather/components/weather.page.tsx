@@ -44,7 +44,6 @@ function useGetWeatherByLocation() {
 export function WeatherPage() {
   const {
     errorMessage,
-    isLoading,
     weather: weatherData,
     searchWeather,
   } = useGetWeatherByLocation();
@@ -63,7 +62,6 @@ export function WeatherPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
   if (errorMessage) return <p>{errorMessage}</p>;
 
   return (
@@ -73,7 +71,7 @@ export function WeatherPage() {
         {/* searchbar */}
         <Searchbar onSearch={handleSearch} />
 
-        {weatherData && (
+        {weatherData ? (
           <div className="bg-white shadow rounded-2xl p-4 space-y-4">
             {/* main part */}
             <div className="text-center text-sm font-bold">
@@ -135,11 +133,13 @@ export function WeatherPage() {
               ))}
             </section>
           </div>
+        ) : (
+          <p>loading...</p>
         )}
       </div>
 
       {/* right part */}
-      {weatherData && (
+      {weatherData ? (
         <div className="flex-1 overflow-hidden grid grid-cols-2 auto-rows-min gap-4">
           {/* hourly forecast */}
           <div className=" col-span-2 rounded-2xl p-2 space-y-2">
@@ -234,6 +234,8 @@ export function WeatherPage() {
 
           {/* Today Highlight */}
         </div>
+      ) : (
+        <p>loading...</p>
       )}
     </div>
   );
