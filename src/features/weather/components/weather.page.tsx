@@ -232,20 +232,7 @@ export function WeatherPage() {
             </div>
           </div>
 
-          {/* other details */}
-          <div className="bg-white shadow rounded-2xl p-2">
-            <h3>uv index (dummy)</h3>
-            <div>3</div>
-            <p>moderate</p>
-            <p>lorem ipsum dolor sit amet</p>
-          </div>
-
-          <div className="bg-white shadow rounded-2xl p-2">
-            <h3>wind (dummy)</h3>
-            <div>3</div>
-            <p>moderate</p>
-            <p>lorem ipsum dolor sit amet</p>
-          </div>
+          {/* Today Highlight */}
         </div>
       )}
     </div>
