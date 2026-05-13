@@ -155,12 +155,7 @@ export function WeatherPage() {
                   <div className="text-sm text-gray-600">
                     {formatHour(forecast.time, weatherData.location.timezone)}
                   </div>
-                  <div className="text-sm text-gray-600">
-                    {forecast.temperature}
-                    <span className="text-xs">
-                      {weatherData.current.temperature.unit}
-                    </span>
-                  </div>
+
                   <div className="mx-auto flex items-center justify-center h-16 w-16 relative">
                     <Image
                       className=" h-full object-cover"
@@ -177,6 +172,13 @@ export function WeatherPage() {
                       width={100}
                       height={100}
                     />
+                  </div>
+
+                  <div className="text-sm text-gray-600">
+                    {forecast.temperature}
+                    <span className="text-xs">
+                      {weatherData.current.temperature.unit}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -206,12 +208,7 @@ export function WeatherPage() {
                       weatherData.location.timezone,
                     )}
                   </div>
-                  <div className="text-gray-600 text-xs">
-                    {dforecast.temperature}
-                    <span className="text-xs">
-                      {weatherData.current.temperature.unit}
-                    </span>
-                  </div>
+
                   <div className="mx-auto flex items-center justify-center h-16 w-16 relative">
                     <Image
                       className=" h-full object-cover"
@@ -222,6 +219,13 @@ export function WeatherPage() {
                       width={100}
                       height={100}
                     />
+                  </div>
+
+                  <div className="text-gray-600 text-xs">
+                    {dforecast.temperature}
+                    <span className="text-xs">
+                      {weatherData.current.temperature.unit}
+                    </span>
                   </div>
                 </div>
               ))}
