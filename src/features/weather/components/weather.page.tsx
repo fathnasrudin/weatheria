@@ -74,10 +74,14 @@ export function WeatherPage() {
         <Searchbar onSearch={handleSearch} />
 
         {weatherData && (
-          <div className="bg-white shadow rounded-2xl p-4 space-y-16">
+          <div className="bg-white shadow rounded-2xl p-4 space-y-4">
             {/* main part */}
             <div className="text-center text-sm font-bold">
               {weatherData.location.name}, {weatherData.location.country}
+            </div>
+
+            <div className="text-center font-bold text-gray-600">
+              {formatHour(weatherData.current.time, "asia/jakarta")}
             </div>
 
             {/* main section */}

@@ -109,6 +109,7 @@ export async function getWeatherByCoordinate({
     ["current", currentProps.join(",")],
     ["hourly", hourlyProps.join(",")],
     ["daily", dailyProps.join(",")],
+    ["timezone", "auto"],
   ];
 
   const forecastString = forecastProps.map((i) => i.join("=")).join("&");
